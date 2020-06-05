@@ -19,9 +19,8 @@ class CredentialApi extends Controller
             'email'=>'email|required|unique:users',
             'password'=>'required|confirmed',
         ]);
-
+        
         $dbname = $validatedData['name'].'_Stock';
-
         Schema::create($dbname, function (Blueprint $table) {
             $table->id();
             $table->string("Name");
@@ -30,15 +29,19 @@ class CredentialApi extends Controller
             $table->timestamps();
         });
 
-        $dbname = $validatedData['name'].'_History';
-        Schema::create($dbname, function (Blueprint $table) {
+        $dbnameHistory = $validatedData['name'].'_History';
+        Schema::create($dbnameHistory, function (Blueprint $table) use($dbname) {
             $table->id();
-            $table->string("ItemId");
+            $table->unsignedBigInteger("ItemId");
             $table->string("Type"); #in/out
             $table->integer("Quantity");
             $table->text("Description");
             $table->timestamps();
+            $table->foreign('ItemId')->references('id')->on($dbname);
         });
+
+        
+
 
 
         $validatedData['password'] = bcrypt($request->password);
@@ -68,6 +71,7 @@ class CredentialApi extends Controller
     }
 
     public function logout(Request $request){
+
         $id = $request->user()->id;
         DB::table('oauth_access_tokens')
         ->where('user_id', $id)

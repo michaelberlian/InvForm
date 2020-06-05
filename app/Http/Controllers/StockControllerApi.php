@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,39 +18,53 @@ class StockControllerApi extends Controller
         date_default_timezone_set("Asia/Jakarta");
         $ldate = date('Y-m-d H:i:s');
 
-        DB::table($tableName)->insert([
-            'Name' => $request->name,
-            'Quantity' => $request->quantity,
-            'Description' => $request->description,
-            'created_at' => $ldate,
-            ]
-        );
+        try {
+            DB::table($tableName)->insert([
+                'Name' => $request->name,
+                'Quantity' => $request->quantity,
+                'Description' => $request->description,
+                'created_at' => $ldate,
+                ]
+            );
+        } catch (Exception $e) {
+            $error = substr($e,strpos($e,"Incorrect"),strpos($e, "at")-strpos($e,"Incorrect"));
+            return response(["code" => 'BAD', "message"=>'check the inputs. '.$error]);
+        }
+        return response(["code"=>'OK', "message"=>'data added successfully']);
 
-        return response(["message"=>'data succesfully added']);
+        
     }
 
     public function view (Request $request){
         $user = $request->user()->name;
         $tableName = $user.'_Stock';
 
-        $stockList = DB::table($tableName)
+        try{
+            $stockList = DB::table($tableName)
             ->where('Name', 'like', '%'.$request->name.'%')
             ->where('Quantity', '>', '%'.$request->quantity.'%')
             ->where('Description', 'like', '%'.$request->description.'%')
             ->get();
+        } catch (Exception $e) {
+            return response(["code" => 'BAD', "message"=>'check the inputs']);
+        }
 
-        return response (['data'=>$stockList]);
+        return response (["code"=>'OK', 'data'=>$stockList]);
     }
 
     public function edit (Request $request, $id){
         $user = $request->user()->name;
         $tableName = $user.'_Stock';
 
-        $selected = DB::table($tableName)
+        try{
+            $selected = DB::table($tableName)
             ->where('id', $id)
             ->get();
+        } catch (Exception $e) {
+            return response(["code" => 'BAD', "message"=>'check the inputs']);
+        }
 
-        return response (['data'=>$selected]);
+        return response (["code"=>'OK', "data"=>$selected]);
     }
 
     public function update (Request $request, $id){
@@ -63,15 +78,20 @@ class StockControllerApi extends Controller
             ->where('id', $id);
         
         if (! $selected->exists()){
-            return response(['message' => 'data is unavailable']);
+            return response(["code" => 'BAD', 'message' => 'data is unavailable']);
         }
-        $selected ->update([
+        try{   
+            $selected ->update([
                 'Name' => $request->name,
                 'Quantity' => $request->quantity,
                 'Description' => $request->description,
                 'updated_at' => $ldate,
-            ]);
-        return (['message' => 'data edited succesfully']);
+                ]);
+        } catch (Exception $e){
+            $error = substr($e,strpos($e,"Incorrect"),strpos($e, "at")-strpos($e,"Incorrect"));
+            return response(["code" => 'BAD', "message"=>'check the inputs. '.$error]);
+        }
+        return (['code' => 'OK', "message"=>'data updated successfully']);
     }
 
     public function delete (Request $request, $id){
@@ -82,11 +102,15 @@ class StockControllerApi extends Controller
             ->where('id', $id);
         
         if (! $selected->exists()){
-            return response(['message' => 'data is unavailable']);
+            return response(["code" => 'BAD', 'message' => 'data is unavailable']);
         }
-        
-        $selected->delete();
-        return response(['message' => 'data deleted succesfully']);
+        try{
+            $selected->delete();
+        } catch (Exception $e){
+            return response(["code" => 'BAD', "message"=>'check the inputs']);
+        }
+
+        return response(['code' => 'OK', "message"=>'data deleted successfully']);
     }
 
 }
