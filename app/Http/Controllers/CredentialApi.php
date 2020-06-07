@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Exception;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,39 +20,37 @@ class CredentialApi extends Controller
             'email'=>'email|required|unique:users',
             'password'=>'required|confirmed',
         ]);
-        
-        $dbname = $validatedData['name'].'_Stock';
-        Schema::create($dbname, function (Blueprint $table) {
-            $table->id();
-            $table->string("Name");
-            $table->integer("Quantity");
-            $table->text("Description");
-            $table->timestamps();
-        });
+        try {
 
-        $dbnameHistory = $validatedData['name'].'_History';
-        Schema::create($dbnameHistory, function (Blueprint $table) use($dbname) {
-            $table->id();
-            $table->unsignedBigInteger("ItemId");
-            $table->string("Type"); #in/out
-            $table->integer("Quantity");
-            $table->text("Description");
-            $table->timestamps();
-            $table->foreign('ItemId')->references('id')->on($dbname);
-        });
-
-        
-
-
+            $dbname = $validatedData['name'].'_Stock';
+            Schema::create($dbname, function (Blueprint $table) {
+                $table->id();
+                $table->string("Name");
+                $table->integer("Quantity");
+                $table->text("Description");
+                $table->timestamps();
+            });
+            
+            $dbnameHistory = $validatedData['name'].'_History';
+            Schema::create($dbnameHistory, function (Blueprint $table) use($dbname) {
+                $table->id();
+                $table->unsignedBigInteger("ItemId");
+                $table->string("Type"); #in/out
+                $table->integer("Quantity");
+                $table->text("Description");
+                $table->timestamps();
+                $table->foreign('ItemId')->references('id')->on($dbname);
+            });
+        } catch (Exception $e){
+            $error = substr($e,strpos($e,"Incorrect"),strpos($e, "at")-strpos($e,"Incorrect"));
+            return response(["code" => 'BAD', "message"=>'check the inputs. '.$error]);
+        }
 
         $validatedData['password'] = bcrypt($request->password);
 
         $user = User::create($validatedData);
 
-
-        $accessToken = $user->createToken('authToken')->accessToken;
-
-        return response(['user'=> $user, 'access_token'=> $accessToken]);
+        return response(['code' => 'OK', 'user'=> $user]);
 
     }
 
@@ -62,12 +61,12 @@ class CredentialApi extends Controller
         ]);
 
         if (!auth()->attempt($loginData)){
-            return response(['message' => 'Invalid credentials']);
+            return response(["code" => 'BAD', 'message' => 'Invalid credentials']);
         }
         
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
-        return response(['user'=> auth()->user(), 'access_token'=> $accessToken]);
+        return response(['code' => 'OK', 'user'=> auth()->user(), 'access_token'=> $accessToken]);
     }
 
     public function logout(Request $request){
@@ -79,11 +78,11 @@ class CredentialApi extends Controller
             'revoked' => true
         ]);
 
-        return response(['message'=>'logout successfully']);
+        return response(['code' => 'OK', 'message'=>'logout successfully']);
     }
 
     public function get_user_data(Request $request){
         $user = $request->user();
-        return response (['user'=>$user]);
+        return response (['code' => 'OK', 'user'=>$user]);
     }
 }
