@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/register', 'CredentialApi@register');
 Route::post('/login', 'CredentialApi@login');
 Route::middleware('auth:api')->get('/logout','CredentialApi@logout');
+Route::middleware('auth:api')->post('/updatepassword','CredentialApi@update_password');
 Route::middleware('auth:api')->get('/userdata','CredentialApi@get_user_data');
 
 Route::middleware('auth:api')->post('/create','StockControllerApi@create');

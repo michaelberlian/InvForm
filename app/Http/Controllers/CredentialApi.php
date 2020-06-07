@@ -8,6 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Lcobucci\JWT\Parser;
 
@@ -52,6 +53,30 @@ class CredentialApi extends Controller
 
         return response(['code' => 'OK', 'user'=> $user]);
 
+    }
+
+    public function update_password (Request $request){
+        $user = $request->user();
+        $validatedData = $request->validate([
+            'password'=>'required',
+            'new_password' => 'required|confirmed'
+        ]);
+
+        if(strcmp($request->password, $request->new_password) == 0){
+            return response(['code' => 'BAD', 'message' => 'the new and old password cannot be the same']);
+        }
+
+        if ((Hash::check($request->password, Auth::user()->password))){
+            $new_password = bcrypt($request->new_password);
+            
+            DB::table('users')
+            ->where('id', $user->id)
+            ->update([
+                'password' => $new_password
+                ]);
+            return response(['code' => 'OK', 'message' => 'password changed successfully']);
+        }
+        return response(['code' => 'BAD', 'message' => 'wrong password']);
     }
 
     public function login(Request $request){
