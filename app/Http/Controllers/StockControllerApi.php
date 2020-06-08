@@ -45,7 +45,7 @@ class StockControllerApi extends Controller
         try{
             $stockList = DB::table($tableName)
             ->where('Name', 'like', '%'.$request->name.'%')
-            ->where('Quantity', '>', $request->quantity)
+            ->where('Quantity', '>=', $request->quantity)
             ->where('Description', 'like', '%'.$request->description.'%')
             ->get();
         } catch (Exception $e) {
