@@ -107,7 +107,7 @@ class StockControllerApi extends Controller
         try{
             $selected->delete();
         } catch (Exception $e){
-            return response(["code" => 'BAD', "message"=>'check the inputs']);
+            return response(["code" => 'BAD', "message"=>'check the inputs \n']);
         }
 
         return response(['code' => 'OK', "message"=>'data deleted successfully']);
