@@ -21,6 +21,7 @@ class CredentialApi extends Controller
             'email'=>'email|required|unique:users',
             'password'=>'required|confirmed',
         ]);
+        $validatedData['name']=str_replace(" ","_",$validatedData['name']);
         try {
 
             $dbname = $validatedData['name'].'_Stock';
