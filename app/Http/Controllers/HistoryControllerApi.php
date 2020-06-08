@@ -21,10 +21,12 @@ class HistoryControllerApi extends Controller
         try{
             DB::table($tableName)->insert([
                 'ItemId' => $request->itemid,
+                'ItemName' => $request->itemname,
                 'Type' => $request->type,
                 'Quantity' => $request->quantity,
                 'Description' => $request->description,
                 'created_at' => $ldate,
+                'updated_at' => $ldate,
                 ]
             );
             
@@ -63,13 +65,11 @@ class HistoryControllerApi extends Controller
         try{
 
             $stockList = DB::table($tableName)
-            ->leftJoin($stockTableName, $tableName.'.ItemId', '=', $stockTableName.'.id')
-            ->select($tableName.'.id', $tableName.'.ItemId', $stockTableName.'.Name', $tableName.'.Type', $tableName.'.Quantity', $tableName.'.Description', $tableName.'.created_at')
-            ->where('Name', 'like', '%'.$request->name.'%')
+            ->where('ItemName', 'like', '%'.$request->name.'%')
             ->where('Type', 'like', '%'.$request->type.'%')
-            ->where($tableName.'.Description', 'like', '%'.$request->description.'%')
-            ->where($tableName.'.created_at','>=', $request->startdate)
-            ->where($tableName.'.created_at','<=',$request->enddate)
+            ->where('Description', 'like', '%'.$request->description.'%')
+            ->where('updated_at','>=', $request->startdate)
+            ->where('updated_at','<=',$request->enddate)
             ->get();
             
         } catch (Exception $e){

@@ -37,11 +37,11 @@ class CredentialApi extends Controller
             Schema::create($dbnameHistory, function (Blueprint $table) use($dbname) {
                 $table->id();
                 $table->unsignedBigInteger("ItemId");
+                $table->string("ItemName");
                 $table->string("Type"); #in/out
                 $table->integer("Quantity");
                 $table->text("Description");
                 $table->timestamps();
-                $table->foreign('ItemId')->references('id')->on($dbname);
             });
         } catch (Exception $e){
             $error = substr($e,strpos($e,"Incorrect"),strpos($e, "at")-strpos($e,"Incorrect"));

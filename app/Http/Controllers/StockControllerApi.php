@@ -24,6 +24,7 @@ class StockControllerApi extends Controller
                 'Quantity' => $request->quantity,
                 'Description' => $request->description,
                 'created_at' => $ldate,
+                'updated_at' => $ldate,
                 ]
             );
         } catch (Exception $e) {
