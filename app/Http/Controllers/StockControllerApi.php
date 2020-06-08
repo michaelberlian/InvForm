@@ -42,7 +42,7 @@ class StockControllerApi extends Controller
         try{
             $stockList = DB::table($tableName)
             ->where('Name', 'like', '%'.$request->name.'%')
-            ->where('Quantity', '>', '%'.$request->quantity.'%')
+            ->where('Quantity', '>', $request->quantity)
             ->where('Description', 'like', '%'.$request->description.'%')
             ->get();
         } catch (Exception $e) {
@@ -107,7 +107,7 @@ class StockControllerApi extends Controller
         try{
             $selected->delete();
         } catch (Exception $e){
-            return response(["code" => 'BAD', "message"=>'check the inputs \n']);
+            return response(["code" => 'BAD', "message"=>'check the inputs']);
         }
 
         return response(['code' => 'OK', "message"=>'data deleted successfully']);
