@@ -28,11 +28,11 @@ Route::middleware('auth:api')->post('/create','StockControllerApi@create');
 Route::middleware('auth:api')->post('/view','StockControllerApi@view');
 Route::middleware('auth:api')->get('/edit/{id}','StockControllerApi@edit');
 Route::middleware('auth:api')->post('/update/{id}','StockControllerApi@update');
-Route::middleware('auth:api')->get('/delete/{id}','StockControllerApi@delete');
+Route::middleware('auth:api')->delete('/delete/{id}','StockControllerApi@delete');
 
 Route::middleware('auth:api')->post('/history/create','HistoryControllerApi@create');
 Route::middleware('auth:api')->post('/history/view','HistoryControllerApi@view');
 Route::middleware('auth:api')->get('/history/edit/{id}','HistoryControllerApi@edit');
 Route::middleware('auth:api')->post('/history/update/{id}','HistoryControllerApi@update');
-Route::middleware('auth:api')->get('/history/delete/{id}','HistoryControllerApi@delete');
+Route::middleware('auth:api')->delete('/history/delete/{id}','HistoryControllerApi@delete');
 
