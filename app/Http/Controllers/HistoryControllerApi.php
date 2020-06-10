@@ -62,10 +62,10 @@ class HistoryControllerApi extends Controller
         $stockTableName = $user.'_Stock';
 
         // return response(["message"=>'here']);
-        if ($request->startdate == ""){
+        if ($request->startdate == null){
             $request->startdate == "1990-01-01";
         }
-        if ($request->endate == ""){
+        if ($request->endate == null){
             date_default_timezone_set("Asia/Jakarta");
             $ldate = date('Y-m-d H:i:s');
             $request->startdate == $ldate;
