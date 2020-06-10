@@ -62,6 +62,14 @@ class HistoryControllerApi extends Controller
         $stockTableName = $user.'_Stock';
 
         // return response(["message"=>'here']);
+        if ($request->startdate == ""){
+            $request->startdate == "1990-01-01"
+        }
+        if ($request->endate == ""){
+            date_default_timezone_set("Asia/Jakarta");
+            $ldate = date('Y-m-d H:i:s');
+            $request->startdate == $ldate;
+        }
         try{
 
             $stockList = DB::table($tableName)
@@ -73,7 +81,7 @@ class HistoryControllerApi extends Controller
             ->get();
             
         } catch (Exception $e){
-            return response(["code" => 'BAD', "message"=>'check the inputs'.$e]);
+            return response(["code" => 'BAD', "message"=>'check the inputs']);
         }
         return response (["code"=>'OK', "data"=>$stockList]);
     }
