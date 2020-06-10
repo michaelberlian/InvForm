@@ -63,7 +63,7 @@ class HistoryControllerApi extends Controller
 
         // return response(["message"=>'here']);
         if ($request->startdate == ""){
-            $request->startdate == "1990-01-01"
+            $request->startdate == "1990-01-01";
         }
         if ($request->endate == ""){
             date_default_timezone_set("Asia/Jakarta");
