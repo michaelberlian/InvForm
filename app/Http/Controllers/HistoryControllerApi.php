@@ -68,7 +68,7 @@ class HistoryControllerApi extends Controller
         if (is_null($request->endate)){
             date_default_timezone_set("Asia/Jakarta");
             $ldate = date('Y-m-d H:i:s');
-            $request->startdate = $ldate;
+            $request->enddate = $ldate;
         }
         try{
 
@@ -81,7 +81,7 @@ class HistoryControllerApi extends Controller
             ->get();
             
         } catch (Exception $e){
-            return response(["code" => 'BAD', "message"=>'check the inputs', "date" => [$request->startdate , $request->enddate]]);
+            return response(["code" => 'BAD', "message"=>'check the inputs']);
         }
         return response (["code"=>'OK', "data"=>$stockList]);
     }
