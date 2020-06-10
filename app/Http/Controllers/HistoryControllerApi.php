@@ -81,7 +81,7 @@ class HistoryControllerApi extends Controller
             ->get();
             
         } catch (Exception $e){
-            return response(["code" => 'BAD', "message"=>'check the inputs'.$e]);
+            return response(["code" => 'BAD', "message"=>'check the inputs', "date" => [$request->startdate , $request->enddate]]);
         }
         return response (["code"=>'OK', "data"=>$stockList]);
     }
