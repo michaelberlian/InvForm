@@ -63,12 +63,12 @@ class HistoryControllerApi extends Controller
 
         // return response(["message"=>'here']);
         if (is_null($request->startdate)){
-            $request->startdate == "1990-01-01";
+            $request->startdate = "1990-01-01";
         }
         if (is_null($request->endate)){
             date_default_timezone_set("Asia/Jakarta");
             $ldate = date('Y-m-d H:i:s');
-            $request->startdate == $ldate;
+            $request->startdate = $ldate;
         }
         try{
 
@@ -77,7 +77,7 @@ class HistoryControllerApi extends Controller
             ->where('Type', 'like', '%'.$request->type.'%')
             ->where('Description', 'like', '%'.$request->description.'%')
             ->where('updated_at','>=', $request->startdate)
-            ->where('updated_at','<=',$request->enddate)
+            ->where('updated_at','<=', $request->enddate)
             ->get();
             
         } catch (Exception $e){
