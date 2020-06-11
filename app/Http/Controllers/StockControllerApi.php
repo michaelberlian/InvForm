@@ -50,7 +50,7 @@ class StockControllerApi extends Controller
             ->where('Description', 'like', '%'.$request->description.'%')
             ->get();
         } catch (Exception $e) {
-            return response(["code" => 'BAD', "message"=>'check the inputs']);
+            return response(["code" => 'BAD', "message"=>'check the inputs'.$e]);
         }
 
         return response (["code"=>'OK', 'data'=>$stockList]);

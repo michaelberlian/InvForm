@@ -111,4 +111,5 @@ class CredentialApi extends Controller
         $user = $request->user();
         return response (['code' => 'OK', 'user'=>$user]);
     }
+
 }
