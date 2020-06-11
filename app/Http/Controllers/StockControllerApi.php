@@ -104,7 +104,7 @@ class StockControllerApi extends Controller
             }
         } catch (Exception $e){
             $error = substr($e,strpos($e,"Incorrect"),strpos($e, "at")-strpos($e,"Incorrect"));
-            return response(["code" => 'BAD', "message"=>'check the inputs. '.$error]);
+            return response(["code" => 'BAD', "message"=>'check the inputs. '.$e]);
         }
         return (['code' => 'OK', "message"=>'data updated successfully']);
     }
