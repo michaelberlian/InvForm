@@ -97,7 +97,7 @@ class StockControllerApi extends Controller
                 'Description' => $request->description,
                 'updated_at' => $ldate,
                 ]);
-            if ( $selected_history->exist){
+            if ( $selected_history->exist()){
                 $selected_history ->update([
                     'ItemName' => $request->name,
                     ]);
