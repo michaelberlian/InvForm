@@ -13,7 +13,7 @@ class StockControllerApi extends Controller
     public function create (Request $request){
         // return response(["data" => $request->all()]);
         $user = $request->user()->name;
-        $tableName = $user.'_Stock';
+        $tableName = $user.'_stock';
 
         date_default_timezone_set("Asia/Jakarta");
         $ldate = date('Y-m-d H:i:s');
@@ -38,7 +38,7 @@ class StockControllerApi extends Controller
 
     public function view (Request $request){
         $user = $request->user()->name;
-        $tableName = $user.'_Stock';
+        $tableName = $user.'_stock';
 
         if ($request->quantity == ""){
             $request->quantity = 0;
@@ -50,7 +50,7 @@ class StockControllerApi extends Controller
             ->where('Description', 'like', '%'.$request->description.'%')
             ->get();
         } catch (Exception $e) {
-            return response(["code" => 'BAD', "message"=>'check the inputs'.$e]);
+            return response(["code" => 'BAD', "message"=>'check the inputs']);
         }
 
         return response (["code"=>'OK', 'data'=>$stockList]);
@@ -58,7 +58,7 @@ class StockControllerApi extends Controller
 
     public function edit (Request $request, $id){
         $user = $request->user()->name;
-        $tableName = $user.'_Stock';
+        $tableName = $user.'_stock';
 
         try{
             $selected = DB::table($tableName)
@@ -73,7 +73,7 @@ class StockControllerApi extends Controller
 
     public function update (Request $request, $id){
         $user = $request->user()->name;
-        $tableName = $user.'_Stock';
+        $tableName = $user.'_stock';
 
         date_default_timezone_set("Asia/Jakarta");
         $ldate = date('Y-m-d H:i:s');
@@ -100,7 +100,7 @@ class StockControllerApi extends Controller
 
     public function delete (Request $request, $id){
         $user = $request->user()->name;
-        $tableName = $user.'_Stock';
+        $tableName = $user.'_stock';
 
         $selected = DB::table($tableName)
             ->where('id', $id);

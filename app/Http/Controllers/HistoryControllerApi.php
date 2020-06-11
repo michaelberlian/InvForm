@@ -12,8 +12,8 @@ class HistoryControllerApi extends Controller
     public function create (Request $request){
         // return response(["data" => $request->all()]);
         $user = $request->user()->name;
-        $tableName = $user.'_History';
-        $stockTableName = $user.'_Stock';
+        $tableName = $user.'_history';
+        $stockTableName = $user.'_stock';
 
         date_default_timezone_set("Asia/Jakarta");
         $ldate = date('Y-m-d H:i:s');
@@ -58,8 +58,7 @@ class HistoryControllerApi extends Controller
     public function view (Request $request){
         
         $user = $request->user()->name;
-        $tableName = $user.'_History';
-        $stockTableName = $user.'_Stock';
+        $tableName = $user.'_history';
 
         // return response(["message"=>'here']);
         if (is_null($request->startdate)){
@@ -88,7 +87,7 @@ class HistoryControllerApi extends Controller
 
     public function edit (Request $request, $id){
         $user = $request->user()->name;
-        $tableName = $user.'_History';
+        $tableName = $user.'_history';
 
         try{
 
@@ -104,8 +103,8 @@ class HistoryControllerApi extends Controller
 
     public function update (Request $request, $id){
         $user = $request->user()->name;
-        $tableName = $user.'_History';
-        $stockTableName = $user.'_Stock';
+        $tableName = $user.'_history';
+        $stockTableName = $user.'_stock';
 
         date_default_timezone_set("Asia/Jakarta");
         $ldate = date('Y-m-d H:i:s');
@@ -151,7 +150,7 @@ class HistoryControllerApi extends Controller
 
     public function delete (Request $request, $id){
         $user = $request->user()->name;
-        $tableName = $user.'_History';
+        $tableName = $user.'_history';
 
         $selected = DB::table($tableName)
             ->where('id', $id);
