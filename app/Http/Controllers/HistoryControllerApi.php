@@ -79,7 +79,7 @@ class HistoryControllerApi extends Controller
         try{
 
             $stockList = DB::table($tableName)
-            ->where('ItemName', 'like', '%'.$request->name.'%')
+            ->where('ItemName', 'like', '%'.$request->itemname.'%')
             ->where('Type', 'like', '%'.$request->type.'%')
             ->where('Description', 'like', '%'.$request->description.'%')
             ->where('updated_at','>=', $request->startdate)
