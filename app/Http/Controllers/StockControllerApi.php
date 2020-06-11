@@ -89,17 +89,20 @@ class StockControllerApi extends Controller
         if (! $selected->exists()){
             return response(["code" => 'BAD', 'message' => 'data is unavailable']);
         }
-        if ($selected_history->exists()){
-            $selected_history ->update([
-                'ItemName' => $request->name,
-                ]);
-        }
+        // if ($selected_history->exists()){
+        //     $selected_history ->update([
+        //         'ItemName' => $request->name,
+        //         ]);
+        // }
         try{   
             $selected ->update([
                 'Name' => $request->name,
                 'Quantity' => $request->quantity,
                 'Description' => $request->description,
                 'updated_at' => $ldate,
+                ]);
+            $selected_history ->update([
+                'ItemName' => $request->name,
                 ]);
         } catch (Exception $e){
             $error = substr($e,strpos($e,"Incorrect"),strpos($e, "at")-strpos($e,"Incorrect"));
