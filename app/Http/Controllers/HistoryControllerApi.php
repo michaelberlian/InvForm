@@ -64,6 +64,7 @@ class HistoryControllerApi extends Controller
         if (is_null($request->startdate)){
             $request->startdate = "1990-01-01";
         } else {
+            $request->startdate = str_replace('/','-',$request->startdate);
             $request->startdate = date('Y-m-d H:i:s', strtotime($request->startdate));
         }
         if (is_null($request->endate)){
