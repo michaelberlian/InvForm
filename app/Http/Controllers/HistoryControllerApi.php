@@ -72,10 +72,9 @@ class HistoryControllerApi extends Controller
             $ldate = date('Y-m-d H:i:s');
             $request->enddate = $ldate;
         } else {
+            $request->enddata = str_replace('/','-',$request->enddate);
             $request->enddate = date('Y-m-d H:i:s', strtotime($request->enddate));
         }
-
-        return response (['code' => 'test' , 'data' => [$request->startdate,$request->enddate]]);
 
         try{
 
