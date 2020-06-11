@@ -88,6 +88,8 @@ class StockControllerApi extends Controller
         
         if (! $selected->exists()){
             return response(["code" => 'BAD', 'message' => 'data is unavailable']);
+        }if ($selected_history->exists()){
+            return response(["code" => 'OK', 'message' => 'data exist']);
         }
         try{   
             $selected ->update([
