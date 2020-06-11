@@ -74,7 +74,7 @@ class HistoryControllerApi extends Controller
             $request->enddate = date('Y-m-d H:i:s', strtotime($request->enddate));
         }
 
-        response (['code' => 'test' , 'data' => [$request->startdate,$request->enddate]]);
+        return response (['code' => 'test' , 'data' => [$request->startdate,$request->enddate]]);
 
         try{
 
