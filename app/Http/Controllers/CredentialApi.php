@@ -24,7 +24,7 @@ class CredentialApi extends Controller
         
         try {
 
-            $dbname = $validatedData['name'].'_Stock';
+            $dbname = $validatedData['name'].'_stock';
             Schema::create($dbname, function (Blueprint $table) {
                 $table->id();
                 $table->string("Name");
@@ -33,7 +33,7 @@ class CredentialApi extends Controller
                 $table->timestamps();
             });
             
-            $dbnameHistory = $validatedData['name'].'_History';
+            $dbnameHistory = $validatedData['name'].'_history';
             Schema::create($dbnameHistory, function (Blueprint $table) use($dbname) {
                 $table->id();
                 $table->unsignedBigInteger("ItemId");
