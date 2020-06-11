@@ -97,11 +97,16 @@ class StockControllerApi extends Controller
                 'Description' => $request->description,
                 'updated_at' => $ldate,
                 ]);
+            if ( $selected_history->exist){
+                $selected_history ->update([
+                    'ItemName' => $request->name,
+                    ]);
+            }
         } catch (Exception $e){
             $error = substr($e,strpos($e,"Incorrect"),strpos($e, "at")-strpos($e,"Incorrect"));
             return response(["code" => 'BAD', "message"=>'check the inputs. '.$error]);
         }
-        return (['code' => 'OK', "message"=>'data updated successfully', 'data' => $selected_history]);
+        return (['code' => 'OK', "message"=>'data updated successfully']);
     }
 
     public function delete (Request $request, $id){
