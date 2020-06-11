@@ -84,8 +84,7 @@ class StockControllerApi extends Controller
             ->where('id', $id);
 
         $selected_history = DB::table($tableNameHistory)
-            ->where('ItemId', $id)
-            ->get();
+            ->where('ItemId', $id);
         
         if (! $selected->exists()){
             return response(["code" => 'BAD', 'message' => 'data is unavailable']);
