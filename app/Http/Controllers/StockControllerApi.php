@@ -41,7 +41,7 @@ class StockControllerApi extends Controller
         $tableName = $user.'_stock';
 
         if ($request->quantity == ""){
-            $request->quantity = 0;
+            $request->quantity = -999999999999999;
         }
         try{
             $stockList = DB::table($tableName)
