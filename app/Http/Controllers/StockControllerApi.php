@@ -64,6 +64,7 @@ class StockControllerApi extends Controller
             $selected = DB::table($tableName)
             ->where('id', $id)
             ->get();
+
         } catch (Exception $e) {
             return response(["code" => 'BAD', "message"=>'check the inputs']);
         }
@@ -74,12 +75,17 @@ class StockControllerApi extends Controller
     public function update (Request $request, $id){
         $user = $request->user()->name;
         $tableName = $user.'_stock';
+        $tableNameHistory = $user.'_history';
 
         date_default_timezone_set("Asia/Jakarta");
         $ldate = date('Y-m-d H:i:s');
 
         $selected = DB::table($tableName)
             ->where('id', $id);
+
+        $selected_history = DB::table($tableNameHistory)
+            ->where('ItemId', $id)
+            ->get();
         
         if (! $selected->exists()){
             return response(["code" => 'BAD', 'message' => 'data is unavailable']);
@@ -95,7 +101,7 @@ class StockControllerApi extends Controller
             $error = substr($e,strpos($e,"Incorrect"),strpos($e, "at")-strpos($e,"Incorrect"));
             return response(["code" => 'BAD', "message"=>'check the inputs. '.$error]);
         }
-        return (['code' => 'OK', "message"=>'data updated successfully']);
+        return (['code' => 'OK', "message"=>'data updated successfully', 'data' => $selected_history]);
     }
 
     public function delete (Request $request, $id){
