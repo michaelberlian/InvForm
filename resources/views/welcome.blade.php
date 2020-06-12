@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    WELCOME TO INVFORM
+                    WELCOME TO INVFORM API
                 </div>
 
                 <div class="links">
