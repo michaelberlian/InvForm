@@ -1,85 +1,49 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+THIS IS THE API PROVIDED FOR https://invform.me.
+this api domain is https://api.invform.me
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+this api has 15 routes with 3 major section
+these api routes will give a json response. each json response will only by 2 section code and message or data (data/user/message)
+the code will be either OK or BAD. OK for successful call and BAD for a BAD call
+OK will have data(data/user/message) as the second section of json that will contain the data needed for the front end. 
+Code BAD will have message as the second section of json that will contain the error message.
 
-## About Laravel
+users
+this section has 5 routes
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+register : post method, do not need token, this api need 5 form field( name, email, password, password_confirmation). this route used for register a user. a successfull call will give a json fillled with code('OK') and user(containing user data).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+login : post method, do not need token, this api need 2 form field ( email, password). this route used for login and get the access_token. a successfull call will give unique json from another api. the json will contain code(OK), user(containing user data), and 'access_token'(containing the access_token to be used in future used in the api).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+logout : get method, need token on the header. this route used for logout, revoked the given access token. a successfull call will give code('OK') and a successfull message.
 
-## Learning Laravel
+updatepassword : post method, need token on the header, this api need 3 form field (password, new_password, new_password_confirmation). this route is to update the password based on the token owner. a successfull call will give code('OK') and a successfull message.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+userdata : get method, need token on the header. this route is to get access_token owner data. a succesfull call will give code('OK') and a succesfull message.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+inventory stock
+this section has 5 routes
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+create : post method , need access_token on the header, this api need 3 form field (name, quantity, description). this route is used for insert data to the stock table according to the access_token owner. this will insert name, quantity, description based on the form field and created_at and updated_at generated at the current time to the stock table. the id for the data will be generated automatically by the sql. a successfull call will give code ('OK') and a succesfull message
 
-### Premium Partners
+view : post method , need access_token on the header, this api need 3 form field (name, quantity, description). this route is used for view and search data, this route will search data from the access_token owner's stock table with 3 comparation on Name, Quantity, Description with th provided string on the form field before. this use like sql querry and wildcard at the start and at the end of the string provided at the name and description. while we only use bigger than equal sql querry on the quantity. a successfull call will give code ('OK') and data(containing all the filtered or not filtered list from the stock table)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
+edit/{id} : get method , need access_token on the header. this route used for getting the data from access_token owner stock table based on the id given in the route{id}. a successfull call will give code ('OK') and the data(the selected data)
 
-### Community Sponsors
+update/{id} : post method , need access_token on the header, this api need 3 form field (name, quantity, description). this route is used for updating data where the id given in the route{id}. the selected data attribute will be updated to the given form field and the updated_at column will be updated with the current time. a succesfull call will give code('OK') and a succesfull message.
 
-<a href="https://op.gg"><img src="http://opgg-static.akamaized.net/icon/t.rectangle.png" width="150"></a>
+delete{id} : delete method , need access_token on the header. this route used for delete the data from access_token owner stock table based on the id given in the route{id}. a succesfull call will give code('OK') and a succesfull message.
 
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [云软科技](http://www.yunruan.ltd/)
 
-## Contributing
+inventory history
+this section has 5 routes
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+history/create : post method , need access_token on the header. this api need 5 form field (itemid, itemname, type, quantity, description). this route is used for insert data to the history table according to the access_token owner. this will insert itemid, itemname, type,  quantity, description based on the form field and created_at and updated_at generated at the current time to the history table. the id for the data will be generated automatically by the sql. a successfull call will give code ('OK') and a succesfull message
 
-## Code of Conduct
+history/view : post method , need access_token on the header. this api need 5 form field (itemname, type, description, startdate, enddate). this route is used for searching and viewing the access_token owner history table with 5 comparation on ItemName, Type, Description, updated_at and updated_at with the provided string on the form field before. 
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+history/edit/{id} : get method , need access_token on the header
 
-## Security Vulnerabilities
+history/update/{id} : post method , need access_token on the header
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+history/delete{id} : delete method , need access_token on the header

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
@@ -11,16 +12,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Lcobucci\JWT\Parser;
-
+use Mockery\CountValidator\Exact;
+use PDO;
+use Symfony\Component\Process\ExecutableFinder;
 
 class CredentialApi extends Controller
 {
     public function register(Request $request){
-        $validatedData = $request->validate([
-            'name'=>'required|max:55|unique:users',
-            'email'=>'email|required|unique:users',
-            'password'=>'required|confirmed',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'name'=>'required|max:55|unique:users',
+                'email'=>'email|required|unique:users',
+                'password'=>'required|confirmed',
+                ]);
+        } catch (Exception $e){
+            return response(['code' => 'BAD', 'message' => 'password confirmation does not match']);
+        }
         
         try {
 
@@ -58,10 +65,14 @@ class CredentialApi extends Controller
 
     public function update_password (Request $request){
         $user = $request->user();
-        $validatedData = $request->validate([
-            'password'=>'required',
-            'new_password' => 'required|confirmed'
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'password'=>'required',
+                'new_password' => 'required|confirmed'
+            ]);
+        } catch (Exception $e){
+            return response(['code' => 'BAD', 'message' => 'new password confirmation does not match']);
+        }
 
         if(strcmp($request->password, $request->new_password) == 0){
             return response(['code' => 'BAD', 'message' => 'the new and old password cannot be the same']);
