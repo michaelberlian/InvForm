@@ -75,6 +75,12 @@ class CredentialApi extends Controller
             ->update([
                 'password' => $new_password
                 ]);
+            
+            DB::table('oauth_access_tokens')
+            ->where('user_id', $user->id)
+            ->update([
+                'revoked' => true
+            ]);
             return response(['code' => 'OK', 'message' => 'password changed successfully']);
         }
         return response(['code' => 'BAD', 'message' => 'wrong password']);
