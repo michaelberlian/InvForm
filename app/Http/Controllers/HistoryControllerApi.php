@@ -68,8 +68,7 @@ class HistoryControllerApi extends Controller
             $request->startdate = date('Y-m-d H:i:s', strtotime($request->startdate));
         }
 
-        if (is_null($request->endate)){
-            return response (["code"=>'OK', "data"=>[$request->startdate,$request->enddate]]);
+        if (is_null($request->enddate)){
             date_default_timezone_set("Asia/Jakarta");
             $ldate = date('Y-m-d H:i:s');
             $request->enddate = $ldate;
