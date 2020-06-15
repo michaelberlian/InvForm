@@ -62,7 +62,7 @@ get method , need access_token on the header. this route used for getting the da
 ### history/update/{id}
 post method , need access_token on the header, this api need 2 form field (quantity and description). this route is used for updating data where the id given in the route{id}. the selected data attribute will be updated with the given form field and the updated_at column will be updated with the current time. a successful call will give code('OK') and a successful message. this history update will affect the quantity of stock table with the accordingly based on itemid, the In/Out type and also the quantity change on the history update.
 
-### history/ing{id}
+### history/delete/{id}
 delete method , need access_token on the header. thsi route used for deleting the data from the access_token owner history table based on the id given in the route{id}. a successful call will give code('OK') and a successful message.
 
 
