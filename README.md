@@ -1,9 +1,9 @@
 # InvFroms API
 
 THIS API IS PROVIDED FOR https://invform.me.
-this api domain is https://api.invform.me
+this api domain is https://api.invform.me.
 
-#this api has 15 routes with 3 major section
+this api has 15 routes with 3 major section
 these api routes will give a json response. each json response will only by 2 section code and message or data (data/user/message)
 the code will be either OK or BAD. OK for successful call and BAD for a BAD call
 OK will have data(data/user/message) as the second section of json that will contain the data needed for the front end. 
