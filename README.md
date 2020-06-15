@@ -28,22 +28,22 @@ post method, need token on the header, this api need 3 form field (password, new
 get method, need token on the header. this route is to get access_token owner data. a succesfull call will give code('OK') and a successful message.
 
 
-# inventory stock
+## inventory stock
 this section has 5 routes
 
-## create
+### create
 post method , need access_token on the header, this api need 3 form field (name, quantity, description). this route is used for insert data to the stock table according to the access_token owner. this will insert name, quantity, description based on the form field and created_at and updated_at generated at the current time to the stock table. the id for the data will be generated automatically by the sql. a successful call will give code ('OK') and a successful message.
 
-## view
+### view
 post method , need access_token on the header, this api need 3 form field (name, quantity, description). this route is used for view and search data, this route will search data from the access_token owner's stock table with 3 comparation on Name, Quantity, Description with th provided string on the form field before. this use like sql querry and wildcard at the start and at the end of the string provided at the name and description. while we only use bigger than equal sql querry on the quantity. a successful call will give code ('OK') and data(containing all the filtered or not filtered list from the stock table).
 
-## edit/{id}
+### edit/{id}
 get method , need access_token on the header. this route used for getting the data from access_token owner stock table based on the id given in the route{id}. a successful call will give code ('OK') and the data(the selected data).
 
-## update/{id}
+### update/{id}
 post method , need access_token on the header, this api need 3 form field (name, quantity, description). this route is used for updating data where the id given in the route{id}. the selected data attribute will be updated with the given form field and the updated_at column will be updated with the current time. a successful call will give code('OK') and a successful message. when a data updated on the stock table, all the list from the access_token owner history table itemname that has the same id will also affected if the itemname.
 
-## delete{id}
+### delete{id}
 delete method , need access_token on the header. this route used for deleting the data from access_token owner stock table based on the id given in the route{id}. a successful call will give code('OK') and a successful message.
 
 
