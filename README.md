@@ -1,13 +1,15 @@
-THIS IS THE API PROVIDED FOR https://invform.me.
-this api domain is https://api.invform.me
+#InvFroms API
 
-this api has 15 routes with 3 major section
+##THIS API IS PROVIDED FOR https://invform.me.
+##this api domain is https://api.invform.me
+
+#this api has 15 routes with 3 major section
 these api routes will give a json response. each json response will only by 2 section code and message or data (data/user/message)
 the code will be either OK or BAD. OK for successful call and BAD for a BAD call
 OK will have data(data/user/message) as the second section of json that will contain the data needed for the front end. 
 Code BAD will have message as the second section of json that will contain the error message.
 
-users
+##users
 this section has 5 routes
 
 register : post method, do not need token, this api need 5 form field( name, email, password, password_confirmation). this route used for register a user. a successful call will give a json fillled with code('OK') and user(containing user data).
@@ -21,7 +23,7 @@ updatepassword : post method, need token on the header, this api need 3 form fie
 userdata : get method, need token on the header. this route is to get access_token owner data. a succesfull call will give code('OK') and a successful message.
 
 
-inventory stock
+#inventory stock
 this section has 5 routes
 
 create : post method , need access_token on the header, this api need 3 form field (name, quantity, description). this route is used for insert data to the stock table according to the access_token owner. this will insert name, quantity, description based on the form field and created_at and updated_at generated at the current time to the stock table. the id for the data will be generated automatically by the sql. a successful call will give code ('OK') and a successful message.
@@ -35,7 +37,7 @@ update/{id} : post method , need access_token on the header, this api need 3 for
 delete{id} : delete method , need access_token on the header. this route used for deleting the data from access_token owner stock table based on the id given in the route{id}. a successful call will give code('OK') and a successful message.
 
 
-inventory history
+#inventory history
 this section has 5 routes
 
 history/create : post method , need access_token on the header. this api need 5 form field (itemid, itemname, type, quantity, description). this route is used for insert data to the history table according to the access_token owner. this will insert itemid, itemname, type,  quantity, description based on the form field and created_at and updated_at generated at the current time to the history table. the id for the data will be generated automatically by the sql. a successful call will give code ('OK') and a succesfull message. this history create will affect the quantity of stock table with the accordingly based on itemid, the In/Out type and also the quantity of the history.
